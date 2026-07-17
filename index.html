@@ -3,154 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İlişki Puan Sistemi</title>
+    <title>Ufak Bir Soru...</title>
     <style>
         body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #ffe6e6;
+            background-color: #f4f4f9;
+            overflow: hidden; /* Buton ekran dışına taşarsa kaydırma çubuklarını gizler */
+        }
+
+        h1 {
             color: #333;
             text-align: center;
-            margin: 0;
-            padding: 20px;
+            margin-bottom: 40px;
         }
-        .container {
-            max-width: 600px;
-            background: white;
-            margin: auto;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            position: relative; /* Butonların başlangıç konumu için */
         }
-        h1 {
-            color: #e63946;
-            margin-bottom: 5px;
-        }
-        .subtitle {
-            color: #666;
-            font-size: 0.9em;
-            margin-bottom: 25px;
-        }
-        .score-board {
-            font-size: 2.5em;
-            font-weight: bold;
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #f1faee;
-            border-radius: 10px;
-            border: 2px solid #a8dadc;
-            color: #1d3557;
-        }
-        .section {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-        .btn {
-            display: inline-block;
-            margin: 8px;
-            padding: 12px 20px;
-            font-size: 1em;
+
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
             font-weight: bold;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: transform 0.1s;
         }
-        .btn-earn {
-            background-color: #457b9d;
+
+        #btn-evet {
+            background-color: #4CAF50;
             color: white;
         }
-        .btn-earn:hover {
-            background-color: #1d3557;
+
+        #btn-evet:hover {
+            transform: scale(1.1);
         }
-        .btn-spend {
-            background-color: #e63946;
+
+        #btn-hayir {
+            background-color: #f44336;
             color: white;
-        }
-        .btn-spend:hover {
-            background-color: #b51724;
-        }
-        #log {
-            margin-top: 15px;
-            text-align: left;
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            height: 180px;
-            overflow-y: auto;
-            font-size: 0.95em;
-            border: 1px solid #ddd;
-        }
-        .log-entry {
-            margin-bottom: 8px;
-            padding-bottom: 8px;
-            border-bottom: 1px dashed #ccc;
+            position: relative; /* İlk başta normal durması için */
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Bahar & Sen ❤️</h1>
-    <div class="subtitle">İlişki Puan Takip Sistemi</div>
+    <h1>NUDE ATIYOR MUSUN?</h1>
     
-    <div class="score-board">
-        Bakiye: <span id="currentScore">0</span> Puan
+    <div class="buttons">
+        <button id="btn-evet" onclick="alert('Harika! O ZAMAN WHATSAPPTA BEKLİYORUM 😋')">Tabii ki!</button>
+        <button id="btn-hayir">Hayır</button>
     </div>
 
-    <div class="section">
-        <h3>📈 Puan Kazan (Görevler)</h3>
-        <!-- Puan kazanma butonlarını buradan düzenleyebilirsin -->
-        <button class="btn btn-earn" onclick="addPoints(50, 'Günaydın mesajı atıldı')">Günaydın Mesajı (+50p)</button>
-        <button class="btn btn-earn" onclick="addPoints(100, 'İlgi verildi')">İlgi Vermek (+100p)</button>
-        <button class="btn btn-earn" onclick="addPoints(150, 'Özel jest yapıldı')">Özel Jest (+150p)</button>
-    </div>
+    <script>
+        const btnHayir = document.getElementById('btn-hayir');
 
-    <div class="section">
-        <h3>🛍️ Puan Harca (Ödüller)</h3>
-        <!-- Ödül butonlarını ve puan bedellerini buradan düzenleyebilirsin -->
-        <button class="btn btn-spend" onclick="spendPoints(120, '120 Puanlık Ödül alındı')">1. Ödül (-120p)</button>
-        <button class="btn btn-spend" onclick="spendPoints(200, '200 Puanlık Ödül alındı')">2. Ödül (-200p)</button>
-    </div>
+        // Fare butonun üzerine geldiğinde çalışacak fonksiyon
+        btnHayir.addEventListener('mouseover', function() {
+            // Pencere boyutlarını al
+            const xMax = window.innerWidth - btnHayir.offsetWidth;
+            const yMax = window.innerHeight - btnHayir.offsetHeight;
 
-    <div class="section">
-        <h3>📝 İşlem Geçmişi</h3>
-        <div id="log"></div>
-    </div>
-</div>
+            // Rastgele X ve Y koordinatları üret
+            const rastgeleX = Math.floor(Math.random() * xMax);
+            const rastgeleY = Math.floor(Math.random() * yMax);
 
-<script>
-    let totalPoints = 0;
-
-    function updateScore() {
-        document.getElementById('currentScore').innerText = totalPoints;
-    }
-
-    function addLog(message, isEarn) {
-        const logDiv = document.getElementById('log');
-        const time = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-        const icon = isEarn ? "✅" : "🎁";
-        
-        const logHTML = `<div class="log-entry"><strong>[${time}]</strong> ${icon} ${message}</div>`;
-        logDiv.innerHTML = logHTML + logDiv.innerHTML;
-    }
-
-    function addPoints(points, reason) {
-        totalPoints += points;
-        updateScore();
-        addLog(`${points} puan kazanıldı: ${reason}`, true);
-    }
-
-    function spendPoints(points, reward) {
-        if (totalPoints >= points) {
-            totalPoints -= points;
-            updateScore();
-            addLog(`${points} puan harcandı: ${reward}`, false);
-        } else {
-            alert('Yetersiz bakiye! Bu ödül için biraz daha puan toplamalısın.');
-        }
-    }
-</script>
+            // Butonu sayfadan bağımsız hareket edebilmesi için 'fixed' yap
+            btnHayir.style.position = 'fixed';
+            btnHayir.style.left = rastgeleX + 'px';
+            btnHayir.style.top = rastgeleY + 'px';
+        });
+    </script>
 
 </body>
 </html>
