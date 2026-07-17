@@ -21,12 +21,15 @@
             color: #333;
             text-align: center;
             margin-bottom: 40px;
+            position: relative;
+            z-index: 10;
         }
 
         .buttons {
             display: flex;
             gap: 20px;
             position: relative; /* Butonların başlangıç konumu için */
+            z-index: 5;
         }
 
         button {
@@ -36,28 +39,32 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: transform 0.1s;
+            transition: transform 0.2s ease, filter 0.2s ease; /* Büyüme animasyonunu yumuşattık */
         }
 
         #btn-evet {
             background-color: #4CAF50;
             color: white;
+            position: relative;
+            z-index: 1; 
         }
 
         #btn-evet:hover {
-            transform: scale(1.1);
+            /* JS ile scale vereceğimiz için hover efektini parlaklık artışı olarak değiştirdik */
+            filter: brightness(1.1); 
         }
 
         #btn-hayir {
             background-color: #f44336;
             color: white;
-            position: relative; /* İlk başta normal durması için */
+            position: relative; 
+            z-index: 20; /* Her zaman en üstte kalıp tıklanabilmesi/kaçabilmesi için */
         }
     </style>
 </head>
 <body>
 
-    <h1>NUDE ATIYOR MUSUN?</h1>
+    <h1>NUDE ATACAK MISIN?</h1>
     
     <div class="buttons">
         <button id="btn-evet" onclick="alert('Harika! O ZAMAN WHATSAPPTA BEKLİYORUM 😋')">Tabii ki!</button>
@@ -66,6 +73,10 @@
 
     <script>
         const btnHayir = document.getElementById('btn-hayir');
+        const btnEvet = document.getElementById('btn-evet');
+        
+        // "Tabii ki!" butonunun başlangıç boyutu
+        let evetBoyut = 1; 
 
         // Fare butonun üzerine geldiğinde çalışacak fonksiyon
         btnHayir.addEventListener('mouseover', function() {
@@ -81,6 +92,11 @@
             btnHayir.style.position = 'fixed';
             btnHayir.style.left = rastgeleX + 'px';
             btnHayir.style.top = rastgeleY + 'px';
+
+            // Hayır butonuna her gelindiğinde Tabii ki butonunu büyüt
+            evetBoyut += 0.5; // Büyüme hızını buradan ayarlayabilirsin
+            btnEvet.style.transform = `scale(${evetBoyut})`;
+            btnEvet.style.zIndex = "100"; // Büyüdükçe ekrandaki her şeyin üstünü kaplaması için
         });
     </script>
 
