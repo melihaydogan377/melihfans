@@ -3,101 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ufak Bir Soru...</title>
+    <title>Seni Çok Seviyorum 🥺</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffe6e6;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
-            overflow: hidden; /* Buton ekran dışına taşarsa kaydırma çubuklarını gizler */
+            overflow: hidden; /* Buton kaçarken ekran kaymasın diye */
         }
-
-        h1 {
-            color: #333;
+        .container {
             text-align: center;
-            margin-bottom: 40px;
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             position: relative;
             z-index: 10;
         }
-
+        h1 {
+            color: #ff4d4d;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
         .buttons {
             display: flex;
+            justify-content: center;
             gap: 20px;
-            position: relative; /* Butonların başlangıç konumu için */
-            z-index: 5;
         }
-
         button {
-            padding: 12px 24px;
-            font-size: 18px;
-            font-weight: bold;
+            padding: 12px 40px;
+            font-size: 1.2em;
             border: none;
-            border-radius: 8px;
+            border-radius: 25px;
             cursor: pointer;
-            transition: transform 0.2s ease, filter 0.2s ease; /* Büyüme animasyonunu yumuşattık */
+            font-weight: bold;
+            transition: transform 0.2s;
         }
-
-        #btn-evet {
-            background-color: #4CAF50;
+        #evet {
+            background-color: #ff4d4d;
             color: white;
-            position: relative;
-            z-index: 1; 
+            box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4);
         }
-
-        #btn-evet:hover {
-            /* JS ile scale vereceğimiz için hover efektini parlaklık artışı olarak değiştirdik */
-            filter: brightness(1.1); 
+        #evet:hover {
+            transform: scale(1.1);
         }
-
-        #btn-hayir {
-            background-color: #f44336;
+        #hayir {
+            background-color: #666;
             color: white;
-            position: relative; 
-            z-index: 20; /* Her zaman en üstte kalıp tıklanabilmesi/kaçabilmesi için */
         }
+        .heart {
+            font-size: 60px;
+            animation: heartbeat 1s infinite alternate;
+            margin-bottom: 10px;
+        }
+        @keyframes heartbeat {
+            from { transform: scale(1); }
+            to { transform: scale(1.2); }
+        }
+        .hidden {
+            display: none;
+        }
+        
+        /* Ekstra tatlılık için arkaya uçuşan kalpler eklenebilir ama sade tuttuk */
     </style>
 </head>
 <body>
 
-    <h1>NUDE ATACAK MISIN?</h1>
-    
-    <div class="buttons">
-        <button id="btn-evet" onclick="alert('Harika! O ZAMAN WHATSAPPTA BEKLİYORUM 😋')">Tabii ki!</button>
-        <button id="btn-hayir">Hayır</button>
+    <!-- İLK EKRAN: SORU KISMI -->
+    <div class="container" id="soru-ekrani">
+        <div class="heart">❤️</div>
+        <h1>Beni affettin mi? 🥺</h1>
+        <p>Seni ne kadar çok sevdiğimi biliyorsun. Lütfen barışalım...</p>
+        <div class="buttons">
+            <button id="evet" onclick="baristik()">Evet!</button>
+            <button id="hayir" onmouseover="kac(this)" onclick="kac(this)">Hayır</button>
+        </div>
+    </div>
+
+    <!-- İKİNCİ EKRAN: KUTLAMA KISMI -->
+    <div class="container hidden" id="mutlu-son">
+        <div class="heart" style="font-size: 80px;">💖</div>
+        <h1>Biliyordum! 😍</h1>
+        <p>Seni dünyalar kadar seviyorum! Hemen bana mesaj at!</p>
     </div>
 
     <script>
-        const btnHayir = document.getElementById('btn-hayir');
-        const btnEvet = document.getElementById('btn-evet');
-        
-        // "Tabii ki!" butonunun başlangıç boyutu
-        let evetBoyut = 1; 
+        // Hayır butonunu kaçıran fonksiyon
+        function kac(btn) {
+            // Butonu ekranda rastgele bir yere taşı
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 50);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 50);
+            
+            btn.style.position = 'fixed';
+            btn.style.left = `${Math.max(20, x)}px`;
+            btn.style.top = `${Math.max(20, y)}px`;
+        }
 
-        // Fare butonun üzerine geldiğinde çalışacak fonksiyon
-        btnHayir.addEventListener('mouseover', function() {
-            // Pencere boyutlarını al
-            const xMax = window.innerWidth - btnHayir.offsetWidth;
-            const yMax = window.innerHeight - btnHayir.offsetHeight;
-
-            // Rastgele X ve Y koordinatları üret
-            const rastgeleX = Math.floor(Math.random() * xMax);
-            const rastgeleY = Math.floor(Math.random() * yMax);
-
-            // Butonu sayfadan bağımsız hareket edebilmesi için 'fixed' yap
-            btnHayir.style.position = 'fixed';
-            btnHayir.style.left = rastgeleX + 'px';
-            btnHayir.style.top = rastgeleY + 'px';
-
-            // Hayır butonuna her gelindiğinde Tabii ki butonunu büyüt
-            evetBoyut += 0.5; // Büyüme hızını buradan ayarlayabilirsin
-            btnEvet.style.transform = `scale(${evetBoyut})`;
-            btnEvet.style.zIndex = "100"; // Büyüdükçe ekrandaki her şeyin üstünü kaplaması için
-        });
+        // Evet butonuna basılınca çalışacak fonksiyon
+        function baristik() {
+            document.getElementById('soru-ekrani').classList.add('hidden');
+            document.getElementById('mutlu-son').classList.remove('hidden');
+        }
     </script>
 
 </body>
