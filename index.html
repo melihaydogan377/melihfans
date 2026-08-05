@@ -3,116 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seni Çok Seviyorum 🥺</title>
+    <title>Gelen Mesaj: Peter Parker 🕷️</title>
     <style>
         body {
             margin: 0;
             padding: 0;
+            background-color: #0a0a1a;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #ffe6e6;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden; /* Buton kaçarken ekran kaymasın diye */
         }
+
+        /* Arka plan ağ deseni efekti */
+        .spider-web-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 50% 50%, transparent 60%, rgba(226, 54, 54, 0.1) 61%, transparent 62%),
+                radial-gradient(circle at 50% 50%, transparent 40%, rgba(226, 54, 54, 0.1) 41%, transparent 42%),
+                radial-gradient(circle at 50% 50%, transparent 20%, rgba(226, 54, 54, 0.1) 21%, transparent 22%);
+            z-index: 0;
+        }
+
         .container {
-            text-align: center;
-            background: white;
-            padding: 50px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             position: relative;
             z-index: 10;
+            text-align: center;
+            background: rgba(10, 10, 26, 0.9);
+            padding: 40px;
+            border: 3px solid #e23636;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(226, 54, 54, 0.4);
+            max-width: 500px;
+            width: 90%;
         }
+
+        /* İlk açılıştaki uyarı metni */
+        #uyari-ekrani {
+            font-size: 1.5em;
+            color: #e23636;
+            font-weight: bold;
+            letter-spacing: 2px;
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { text-shadow: 0 0 10px #e23636, 0 0 20px #e23636; transform: scale(1); }
+            to { text-shadow: 0 0 20px #e23636, 0 0 30px #e23636; transform: scale(1.05); }
+        }
+
+        /* Ana Görev Ekranı */
+        #gorev-ekrani {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
         h1 {
-            color: #ff4d4d;
-            font-size: 2.5em;
+            font-family: 'Impact', sans-serif;
+            color: #e23636;
+            font-size: 2.8em;
+            text-transform: uppercase;
             margin-bottom: 10px;
+            text-shadow: 3px 3px 0px #1a5276; /* Spiderman Mavisi */
+            letter-spacing: 2px;
         }
+
         p {
-            color: #666;
             font-size: 1.2em;
+            line-height: 1.5;
             margin-bottom: 30px;
+            color: #d1d1d1;
         }
+
         .buttons {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
         }
+
         button {
-            padding: 12px 40px;
+            padding: 15px 30px;
             font-size: 1.2em;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
             font-weight: bold;
-            transition: transform 0.2s;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Arial', sans-serif;
+            transition: transform 0.2s, background-color 0.2s;
         }
-        #evet {
-            background-color: #ff4d4d;
+
+        #btn-evet {
+            background-color: #e23636;
             color: white;
-            box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4);
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 15px rgba(226, 54, 54, 0.6);
         }
-        #evet:hover {
+
+        #btn-evet:hover {
+            background-color: #1a5276;
+            box-shadow: 0 0 15px rgba(26, 82, 118, 0.8);
             transform: scale(1.1);
         }
-        #hayir {
-            background-color: #666;
-            color: white;
+
+        #btn-hayir {
+            background-color: #333333;
+            color: #aaaaaa;
+            border: 2px solid #555555;
+            position: relative;
         }
-        .heart {
+
+        .spider-icon {
             font-size: 60px;
-            animation: heartbeat 1s infinite alternate;
-            margin-bottom: 10px;
+            margin-bottom: -10px;
         }
-        @keyframes heartbeat {
-            from { transform: scale(1); }
-            to { transform: scale(1.2); }
-        }
-        .hidden {
-            display: none;
-        }
-        
-        /* Ekstra tatlılık için arkaya uçuşan kalpler eklenebilir ama sade tuttuk */
     </style>
 </head>
 <body>
 
-    <!-- İLK EKRAN: SORU KISMI -->
-    <div class="container" id="soru-ekrani">
-        <div class="heart">❤️</div>
-        <h1>Beni affettin mi? 🥺</h1>
-        <p>Seni ne kadar çok sevdiğimi biliyorsun. Lütfen barışalım...</p>
+    <div class="spider-web-bg"></div>
+
+    <!-- SENSÖR UYARI EKRANI -->
+    <div class="container" id="uyari-ekrani">
+        <div class="spider-icon">🕷️</div>
+        <p id="yazi-alani">Örümcek Hislerim Titriyor...</p>
+    </div>
+
+    <!-- ANA GÖREV EKRANI -->
+    <div class="container" id="gorev-ekrani">
+        <h1>GÖREV: SİNEMA<br>OPERASYONU 🍿</h1>
+        <p>Tehlike yok ama çok daha önemli bir durum var: <b>Bu cumartesi sinemaya gidiyor muyuz?</b> <br><br><i>(Örümcek hislerim "evet" diyeceğini söylüyor.)</i></p>
+        
         <div class="buttons">
-            <button id="evet" onclick="baristik()">Evet!</button>
-            <button id="hayir" onmouseover="kac(this)" onclick="kac(this)">Hayır</button>
+            <!-- WHATSAPP LİNKİNİ BURAYA EKLEYEBİLİRSİN -->
+            <button id="btn-evet" onclick="window.location.href='https://wa.me/?text=Ağları%20hazırla,%20sinema%20operasyonu%20onaylandı!%20🍿🕷️'">Ağları Hazırla, Geliyorum! 🕸️</button>
+            <button id="btn-hayir" onmouseover="orumcekKacisi(this)" onclick="orumcekKacisi(this)">Başka Planım Var</button>
         </div>
     </div>
 
-    <!-- İKİNCİ EKRAN: KUTLAMA KISMI -->
-    <div class="container hidden" id="mutlu-son">
-        <div class="heart" style="font-size: 80px;">💖</div>
-        <h1>Biliyordum! 😍</h1>
-        <p>Seni dünyalar kadar seviyorum! Hemen bana mesaj at!</p>
-    </div>
-
     <script>
-        // Hayır butonunu kaçıran fonksiyon
-        function kac(btn) {
-            // Butonu ekranda rastgele bir yere taşı
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 50);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 50);
+        const uyariEkrani = document.getElementById('uyari-ekrani');
+        const gorevEkrani = document.getElementById('gorev-ekrani');
+        const yaziAlani = document.getElementById('yazi-alani');
+
+        // Giriş animasyonu metinleri
+        setTimeout(() => { yaziAlani.innerText = "Ağ Atıcılar Kontrol Ediliyor... 🕸️"; }, 1500);
+        setTimeout(() => { yaziAlani.innerText = "Hedefe Kilitlenildi! 🎯"; }, 3000);
+        
+        // 4.5 saniye sonra asıl ekranı göster
+        setTimeout(() => {
+            uyariEkrani.style.display = 'none';
+            gorevEkrani.style.display = 'block';
+            setTimeout(() => { gorevEkrani.style.opacity = 1; }, 50);
+        }, 4500);
+
+        // Hayır butonunu tıpkı Spider-Man'in saldırıdan kaçması gibi kaçıran fonksiyon
+        function orumcekKacisi(btn) {
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 40);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 40);
             
             btn.style.position = 'fixed';
             btn.style.left = `${Math.max(20, x)}px`;
             btn.style.top = `${Math.max(20, y)}px`;
-        }
-
-        // Evet butonuna basılınca çalışacak fonksiyon
-        function baristik() {
-            document.getElementById('soru-ekrani').classList.add('hidden');
-            document.getElementById('mutlu-son').classList.remove('hidden');
+            btn.style.zIndex = "999";
         }
     </script>
 
