@@ -56,11 +56,36 @@
             to { text-shadow: 0 0 20px #e23636, 0 0 30px #e23636; transform: scale(1.05); }
         }
 
-        /* Ana Görev Ekranı */
+        /* Örümcek ikonu süzülme animasyonu */
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0); }
+        }
+
+        .spider-icon {
+            font-size: 60px;
+            margin-bottom: -10px;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        /* Ana Görev Ekranı - Başlangıçta gizli */
         #gorev-ekrani {
             display: none;
             opacity: 0;
-            transition: opacity 1s ease-in-out;
+        }
+
+        /* Tavandan düşme (Spider-Man tarzı) animasyonu */
+        @keyframes dropIn {
+            0% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+            60% { transform: translateY(30px) scale(1.05); opacity: 1; }
+            80% { transform: translateY(-10px) scale(0.98); opacity: 1; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        #gorev-ekrani.aktif {
+            display: block;
+            animation: dropIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
         h1 {
@@ -118,11 +143,6 @@
             border: 2px solid #555555;
             position: relative;
         }
-
-        .spider-icon {
-            font-size: 60px;
-            margin-bottom: -10px;
-        }
     </style>
 </head>
 <body>
@@ -141,8 +161,8 @@
         <p>Tehlike yok ama çok daha önemli bir durum var: <b>Bu cumartesi sinemaya gidiyor muyuz?</b> <br><br><i>(Örümcek hislerim "evet" diyeceğini söylüyor.)</i></p>
         
         <div class="buttons">
-            <!-- WHATSAPP LİNKİNİ BURAYA EKLEYEBİLİRSİN -->
-            <button id="btn-evet" onclick="window.location.href='https://wa.me/?text=Ağları%20hazırla,%20sinema%20operasyonu%20onaylandı!%20🍿🕷️'">Ağları Hazırla, Geliyorum! 🕸️</button>
+            <!-- WHATSAPP LİNKİ DOĞRUDAN SENİN NUMARANA GİDİYOR -->
+            <button id="btn-evet" onclick="window.location.href='https://wa.me/905350165608?text=Ağları%20hazırla,%20sinema%20operasyonu%20onaylandı!%20🍿🕷️'">Ağları Hazırla, Geliyorum! 🕸️</button>
             <button id="btn-hayir" onmouseover="orumcekKacisi(this)" onclick="orumcekKacisi(this)">Başka Planım Var</button>
         </div>
     </div>
@@ -156,11 +176,10 @@
         setTimeout(() => { yaziAlani.innerText = "Ağ Atıcılar Kontrol Ediliyor... 🕸️"; }, 1500);
         setTimeout(() => { yaziAlani.innerText = "Hedefe Kilitlenildi! 🎯"; }, 3000);
         
-        // 4.5 saniye sonra asıl ekranı göster
+        // 4.5 saniye sonra asıl ekranı animasyonlu göster
         setTimeout(() => {
             uyariEkrani.style.display = 'none';
-            gorevEkrani.style.display = 'block';
-            setTimeout(() => { gorevEkrani.style.opacity = 1; }, 50);
+            gorevEkrani.classList.add('aktif'); // Tavandan düşme animasyonunu tetikler
         }, 4500);
 
         // Hayır butonunu tıpkı Spider-Man'in saldırıdan kaçması gibi kaçıran fonksiyon
